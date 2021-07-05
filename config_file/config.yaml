@@ -1,0 +1,74 @@
+Arch:
+  name: enet
+  input_dim: 1
+  num_classes: 2
+
+Optim:
+  name: RAdam
+  lr: 0.0001
+
+num_models: 6
+
+supvised_term: cross_entropy
+cons_term: MSE
+usetransform: True
+
+Dice_config:
+  smooth: 1e-15
+  p: 2
+
+Scheduler:
+  name: CosineAnnealingLR
+  T_max: 90
+  warmup:
+    multiplier: 300
+    total_epoch: 10
+
+RegScheduler:
+  begin_epoch: 5
+  max_epoch: 50
+  max_value: 4
+
+RegScheduler1:
+  begin_epoch: 5
+  max_epoch: 50
+  max_value: 0.5
+
+Pacevalue:
+  begin_epoch: 5
+  max_epoch: 50
+  max_value: 1
+  min_value: 0.05
+
+AlphaScheduler:
+  begin_epoch: 10
+  max_epoch: 60
+  min_value: 0.0
+  max_value: 0.00015
+
+Dataset: spleen
+Data:
+  unlabeled_data_ratio: 0.9
+  labeled_data_ratio: 0.1
+  seed: 1
+
+DataLoader:
+  labeled_batch_size: 4
+  unlabeled_batch_size: 6
+  val_batch_size: 6
+  shuffle: True
+  num_workers: 0
+
+Trainer:
+  name: CoMTSelf
+  device: cuda
+  save_dir: tmp
+  num_batches: 200
+  max_epoch: 100
+  checkpoint_path: runs
+
+StartTraining:
+  entropy_min: False
+  train_jsd: False
+
+seed: 123
